@@ -10,7 +10,6 @@ import (
 var Config struct {
     workers int
     rootpaths []string
-    dryrun bool
     recursive bool
     verbose bool
 }
@@ -20,11 +19,18 @@ func parse() {
     flag.BoolVar(&Config.recursive, "r", false, "Remove directories and their contents recursively")
     flag.BoolVar(&Config.verbose, "v", false, "Verbose")
 
+    flag.Usage = func() {
+        fmt.Fprintf(os.Stderr, "Usage of %s [OPTION]... [FILE]...\n", os.Args[0])
+        fmt.Fprintf(os.Stderr, "Remove (unlink) the FILE(s).\n\n")
+        flag.PrintDefaults()
+    }
+
     flag.Parse()
 
     Config.rootpaths = []string{"."}
     if len(flag.Args()) == 0 {
-        flag.PrintDefaults()
+
+        flag.Usage()
         os.Exit(1)
     }
     Config.rootpaths = flag.Args()
