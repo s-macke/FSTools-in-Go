@@ -34,6 +34,7 @@ func HandleDir(path string, dir *utils.NodeInfo) {
 var guard = make(chan struct{}, 50)
 
 func ForEachNodeWorker(path string, dir *utils.NodeInfo, wg *sync.WaitGroup) {
+	defer wg.Done()
 	guard <- struct{}{}
 
 	// this is faster than to figure out if this is a file or directory by stat
@@ -44,7 +45,7 @@ func ForEachNodeWorker(path string, dir *utils.NodeInfo, wg *sync.WaitGroup) {
 	if err == nil {
 		atomic.AddInt32(&stat.nremoved, 1)
 		<- guard
-		goto done;
+		return
 	}
 
 	if !Config.recursive {
@@ -52,19 +53,16 @@ func ForEachNodeWorker(path string, dir *utils.NodeInfo, wg *sync.WaitGroup) {
 			fmt.Println(err)
 		}
 		<- guard
-		goto done;
+		return
 	}
 
 	if err.(*os.PathError).Err != syscall.ENOTEMPTY {
 		fmt.Println(err)
 		<- guard
-		goto done;
+		return
 	}
 	<- guard
 	HandleDir(path, dir)
-
-done:
-	wg.Done()
 }
 
 func PrintStat() {

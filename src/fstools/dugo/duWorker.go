@@ -23,14 +23,14 @@ func HandleDir(path string, dir *utils.NodeInfo) {
 }
 
 func ForEachNodeWorker(path string, node *utils.NodeInfo, wg *sync.WaitGroup) {
-
+	defer wg.Done()
 	guard <- struct{}{}
 
 	fip, lerr := os.Stat(path)
 	if lerr != nil {
 		fmt.Println(lerr)
 		<-guard
-		goto done;
+		return
 	}
 	<-guard
 
@@ -38,13 +38,10 @@ func ForEachNodeWorker(path string, node *utils.NodeInfo, wg *sync.WaitGroup) {
     	nodenew := utils.NodeInfo{Depth: node.Depth + 1, Size: fip.Size()}
 		HandleDir(path, &nodenew)
 		atomic.AddInt64(&node.Size, nodenew.Size)
-		goto done;
+		return
 	}
 
 	atomic.AddInt64(&node.Size, fip.Size())
-
-done:
-	wg.Done()
 }
 
 func ReadDir() {
