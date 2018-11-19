@@ -10,6 +10,24 @@ They have been specially developed for network file systems such as NFS or CIFS,
 
 Both tools provided here can mitigate these problems by parallel access to the file system. 
 
-<aside class="warning">
-A high number of workers floods your kernel with commands and might block other network tasks.
-</aside>
+## Usage of dugo
+```
+  -d int
+    	print the total for a directory
+    	only if it is N or fewer levels
+    	below the command line argument (default 2147483647)
+  -h	human readable
+  -s	display only a total
+  -w int
+    	Number of go workers. Default is 10 (default 10)
+      A high number of workers floods your kernel with commands and might block other network tasks.
+```
+
+## Usage of rmgo
+```  
+  -r	Remove directories and their contents recursively
+  -v	Verbose
+  -w int
+    	Number of go workers. Default is 10 (default 10)
+      A high number of workers floods your kernel with commands and might block other network tasks.
+```
