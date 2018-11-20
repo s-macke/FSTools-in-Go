@@ -17,7 +17,7 @@ var stat struct {
 }
 
 func HandleDir(path string, dir *utils.NodeInfo) {
-	utils.ForEachDirEntry(path, dir, ForEachNodeWorker)
+	utils.ForEachDirEntry(path, dir, guard, ForEachNodeWorker)
 
 	// remove directory
 	atomic.AddInt32(&stat.nremoveinqueue, 1)

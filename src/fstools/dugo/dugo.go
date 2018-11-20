@@ -17,7 +17,7 @@ var Config struct {
 }
 
 func parse() {
-    flag.IntVar(&Config.workers,"w", 10, "Number of go workers. Default is 10")
+    flag.IntVar(&Config.workers,"w", 10, "Number of go workers.")
     flag.BoolVar(&Config.summary,"s", false, "display only a total")
     flag.BoolVar(&Config.humanreadable, "h", false, "human readable")
     flag.IntVar(&Config.maxdepth, "d", math.MaxInt32, "print the total for a directory\nonly if it is N or fewer levels\nbelow the command line argument")

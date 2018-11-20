@@ -43,9 +43,12 @@ type NodeInfo struct {
 func ForEachDirEntry(
 	path string,
 	dir *NodeInfo,
+	guard chan struct{},
 	worker func(path string, node *NodeInfo, wg *sync.WaitGroup)) {
 
+	guard <- struct{}{}
 	f, err := os.Open(path)
+	<-guard
 
 	if err != nil {
 		fmt.Println(err)

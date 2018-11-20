@@ -8,10 +8,10 @@ import (
 	"sync/atomic"
 )
 
-var guard = make(chan struct{}, 50)
+var guard = make(chan struct{}, 10)
 
 func HandleDir(path string, dir *utils.NodeInfo) {
-	utils.ForEachDirEntry(path, dir, ForEachNodeWorker)
+	utils.ForEachDirEntry(path, dir, guard, ForEachNodeWorker)
 
 	if (Config.summary && dir.Depth<=1) || (!Config.summary && dir.Depth<=Config.maxdepth+1) {
 		fmt.Println(
@@ -46,6 +46,7 @@ func ForEachNodeWorker(path string, node *utils.NodeInfo, wg *sync.WaitGroup) {
 
 func ReadDir() {
 	guard = make(chan struct{}, Config.workers)
+	//guarddir = make(chan struct{}, Config.workers)
 
 	var wg sync.WaitGroup
 	for _, rootpath := range Config.rootpaths {

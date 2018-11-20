@@ -15,7 +15,7 @@ var Config struct {
 }
 
 func parse() {
-    flag.IntVar(&Config.workers,"w", 10, "Number of go workers. Default is 10")
+    flag.IntVar(&Config.workers,"w", 10, "Number of go workers.")
     flag.BoolVar(&Config.recursive, "r", false, "Remove directories and their contents recursively")
     flag.BoolVar(&Config.verbose, "v", false, "Verbose")
 
