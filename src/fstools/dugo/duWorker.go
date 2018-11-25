@@ -46,7 +46,6 @@ func ForEachNodeWorker(path string, node *utils.NodeInfo, wg *sync.WaitGroup) {
 
 func ReadDir() {
 	guard = make(chan struct{}, Config.workers)
-	//guarddir = make(chan struct{}, Config.workers)
 
 	var wg sync.WaitGroup
 	for _, rootpath := range Config.rootpaths {

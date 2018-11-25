@@ -9,18 +9,18 @@ import (
 )
 
 var Config struct {
-    workers int
+    workers uint
     rootpaths []string
     summary bool
     humanreadable bool
-    maxdepth int
+    maxdepth uint
 }
 
 func parse() {
-    flag.IntVar(&Config.workers,"w", 10, "Number of go workers.")
+    flag.UintVar(&Config.workers,"w", 10, "Number of go workers.")
     flag.BoolVar(&Config.summary,"s", false, "display only a total")
     flag.BoolVar(&Config.humanreadable, "h", false, "human readable")
-    flag.IntVar(&Config.maxdepth, "d", math.MaxInt32, "print the total for a directory\nonly if it is N or fewer levels\nbelow the command line argument")
+    flag.UintVar(&Config.maxdepth, "d", math.MaxInt32, "print the total for a directory\nonly if it is N or fewer levels\nbelow the command line argument")
 
     flag.Usage = func() {
         fmt.Fprintf(os.Stderr, "Usage of %s [OPTION]... [FILE]...\n", os.Args[0])

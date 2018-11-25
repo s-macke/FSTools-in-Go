@@ -8,14 +8,14 @@ import (
 )
 
 var Config struct {
-    workers int
+    workers uint
     rootpaths []string
     recursive bool
     verbose bool
 }
 
 func parse() {
-    flag.IntVar(&Config.workers,"w", 10, "Number of go workers.")
+    flag.UintVar(&Config.workers,"w", 10, "Number of go workers.")
     flag.BoolVar(&Config.recursive, "r", false, "Remove directories and their contents recursively")
     flag.BoolVar(&Config.verbose, "v", false, "Verbose")
 

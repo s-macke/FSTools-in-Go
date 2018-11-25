@@ -20,6 +20,9 @@ cd testenv
 mkdir -p {a,b}/{e,f,g}/{h,i,j}
 cd ..
 
+cmd="./findgo -maxdepth 1"
+exec "${cmd}"
+
 cmd="./dugo"
 exec "${cmd}"
 

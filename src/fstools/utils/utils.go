@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"regexp"
 )
 
 func AddPath(path string, name string) string {
@@ -35,8 +36,16 @@ func FormatNumber(size int64, humanreadable bool) string {
 
 // this is either a directory, file or symlink
 type NodeInfo struct {
-	Depth  int // used by du
+	Depth  uint // used by du
 	Size int64 // used by du
+}
+
+func WildcardToRegex(pattern string) (*regexp.Regexp, error) {
+	pattern = regexp.QuoteMeta(pattern)
+	pattern = strings.Replace(pattern, "\\*", ".*", -1)
+	pattern = strings.Replace(pattern, "\\?", ".", -1)
+	pattern = pattern + "$"
+	return regexp.Compile(pattern);
 }
 
 
